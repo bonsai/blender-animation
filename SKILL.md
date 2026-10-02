@@ -72,3 +72,30 @@ Motion should be expressed as semantic actions plus frame/time boundaries, then 
 - Prefer small deterministic operations over one giant Blender script.
 - Reuse Poly Haven assets when they fit the scene.
 - Do not claim an asset was downloaded or rendered until Blender confirms it.
+
+
+## Runtime
+
+The reference runtime is split into two deterministic stages:
+
+### 1. Resolve Poly Haven assets
+
+```bash
+python scripts/resolve_polyhaven.py examples/10sec-polyhaven.json
+```
+
+This produces a resolved manifest containing the selected Poly Haven asset IDs,
+metadata, file URL, checksum, and API provenance.
+
+### 2. Compile the scene in Blender
+
+```bash
+blender --background --python scripts/build_blender_scene.py -- examples/10sec-polyhaven.resolved.json
+```
+
+The Blender compiler imports resolved model assets and converts semantic motion
+actions into keyframes. Blender MCP can use the same resolved manifest as its
+machine-readable input when operating interactively.
+
+The runtime deliberately does not guess asset URLs and does not make Poly Haven
+API calls from Blender scene-building logic.
