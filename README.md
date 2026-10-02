@@ -7,26 +7,37 @@ A skill for creating Blender animations from structured scene and motion data.
 - Blender 5.2.x
 - Blender MCP
 - Blender Python
-- Poly Haven for CC0 environment, texture, and 3D assets
+- Poly Haven
+- Poly-Haven Public API
 
 ## Concept
 
 ```
 request
   -> animation manifest
-  -> Poly Haven assets
-  -> Blender scene
+  -> Poly Haven semantic search
+  -> asset metadata
+  -> Blender-compatible file
+  -> Blender MCP / Python
   -> keyframes
   -> render
 ```
 
-The repository keeps the animation logic separate from Blender execution so the same animation description can be inspected, generated, and reproduced.
+The repository keeps animation intent, asset discovery, and Blender execution separate so the same animation description can be inspected, generated, and reproduced.
 
-## Asset source
+## Poly Haven
 
-Poly Haven: https://polyhaven.com/
+Use the official Poly Haven API for asset discovery:
 
-The skill prefers Poly Haven assets and records their provenance in the animation manifest.
+- API: https://api.polyhaven.com
+- Source: https://github.com/Poly-Haven/Public-API
+- Adapter contract: [polyhaven/API.md](polyhaven/API.md)
+
+The runtime should resolve `query -> search -> asset info -> file inventory` rather than embedding guessed asset URLs.
+
+## Example
+
+See [examples/10sec-polyhaven.json](examples/10sec-polyhaven.json) for a minimal 10-second animation manifest.
 
 ## Skill
 
