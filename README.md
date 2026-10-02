@@ -5,10 +5,15 @@ A skill for creating Blender animations from structured scene and motion data.
 ## Stack
 
 - Blender 5.2.x
-- Blender MCP
+- Blender MCP: [ahujasid/mcp-for-blender](https://github.com/ahujasid/mcp-for-blender)
 - Blender Python
 - Poly Haven
 - Poly-Haven Public API
+
+## Connection
+
+GUI + MCP setup (Blender 5.2.2 GUI -> MCP -> animation manifest -> Poly Haven ->
+Blender scene) is documented in [CONNECTION.md](CONNECTION.md).
 
 ## Concept
 

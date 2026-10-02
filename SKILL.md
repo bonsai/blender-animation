@@ -29,6 +29,12 @@ See [polyhaven/API.md](polyhaven/API.md) for the adapter contract.
 
 Target Blender 5.2.x. Use the configured Blender MCP when available. The skill may fall back to Blender Python for deterministic scene construction, keyframes, cameras, lighting, and rendering.
 
+The MCP is [ahujasid/mcp-for-blender](https://github.com/ahujasid/mcp-for-blender) (addon `MCP for Blender`, socket `localhost:9876`). Full GUI-to-scene setup is in [CONNECTION.md](CONNECTION.md):
+
+```
+Blender 5.2.2 GUI -> MCP -> animation manifest -> Poly Haven -> Blender scene
+```
+
 ## Workflow
 
 1. Parse the animation request into a scene manifest.
