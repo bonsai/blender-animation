@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Blender Animation Manifest",
+  "type": "object",
+  "required": ["fps", "duration_seconds", "scene", "assets", "camera", "lighting", "motion", "render"],
+  "properties": {
+    "fps": { "type": "integer", "minimum": 1 },
+    "duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+    "scene": { "type": "object" },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "source"],
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "enum": ["hdris", "textures", "models"] },
+          "query": { "type": "string" },
+          "polyhaven_id": { "type": "string" },
+          "source": { "const": "polyhaven" },
+          "resolution": { "type": "string" },
+          "file_format": { "type": "string" },
+          "url": { "type": "string", "format": "uri" }
+        }
+      }
+    },
+    "characters": { "type": "array" },
+    "camera": { "type": "object" },
+    "lighting": { "type": "object" },
+    "motion": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["action", "start", "end"],
+        "properties": {
+          "action": { "type": "string" },
+          "target": { "type": "string" },
+          "start": { "type": "number", "minimum": 0 },
+          "end": { "type": "number", "minimum": 0 },
+          "params": { "type": "object" }
+        }
+      }
+    },
+    "render": { "type": "object" }
+  }
+}
