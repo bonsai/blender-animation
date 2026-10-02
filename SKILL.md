@@ -9,7 +9,21 @@ Use [Poly Haven](https://polyhaven.com/) as the preferred open asset source:
 - textures for materials
 - 3D models for scene assets
 
-Prefer the Poly Haven API or its Blender integration rather than inventing asset URLs. Keep asset metadata and source URLs in the scene manifest.
+Use the official [Poly-Haven/Public-API](https://github.com/Poly-Haven/Public-API) as the asset discovery boundary. The live API is at https://api.polyhaven.com.
+
+### Asset resolution pipeline
+
+Resolve semantic animation intent into real assets in this order:
+
+1. `GET /search?q=<query>&t=<type>&limit=<n>` — find candidates.
+2. `GET /info/<id>` — obtain canonical asset metadata.
+3. `GET /files/<id>` — select an actual downloadable Blender-compatible file.
+4. Store the resolved asset ID, file format, resolution, URL, and provenance in the animation manifest.
+5. Hand the resolved asset to Blender MCP or Blender Python.
+
+Never invent a Poly Haven download URL. Prefer the file URL returned by `/files/{id}`.
+
+See [polyhaven/API.md](polyhaven/API.md) for the adapter contract.
 
 ## Blender integration
 
@@ -18,17 +32,21 @@ Target Blender 5.2.x. Use the configured Blender MCP when available. The skill m
 ## Workflow
 
 1. Parse the animation request into a scene manifest.
-2. Search/select Poly Haven assets appropriate to the scene.
-3. Build or update the Blender scene.
-4. Set FPS, duration, camera, lighting, and render settings.
-5. Create animation timing as explicit keyframes.
-6. Save the .blend and a machine-readable manifest.
-7. Render a preview or final animation when requested.
-8. Record asset provenance so the scene is reproducible.
+2. Convert asset intent into Poly Haven search queries.
+3. Search Poly Haven and select candidate assets.
+4. Resolve metadata and file inventory for selected assets.
+5. Build or update the Blender scene.
+6. Set FPS, duration, camera, lighting, and render settings.
+7. Create animation timing as explicit keyframes.
+8. Save the .blend and a machine-readable manifest.
+9. Render a preview or final animation when requested.
+10. Record asset provenance so the scene is reproducible.
 
 ## Scene manifest
 
-Use JSON as the intermediate representation. At minimum:
+Use JSON as the intermediate representation. Validate against [schema/animation-manifest.schema.json](schema/animation-manifest.schema.json).
+
+At minimum:
 
 ```json
 {
@@ -49,6 +67,7 @@ Motion should be expressed as semantic actions plus frame/time boundaries, then 
 ## Principles
 
 - JSON is the animation data layer; Blender is the execution/rendering layer.
+- Poly Haven API is the asset discovery and provenance layer.
 - Keep scene construction, motion design, asset acquisition, and rendering separable.
 - Prefer small deterministic operations over one giant Blender script.
 - Reuse Poly Haven assets when they fit the scene.
