@@ -1,0 +1,50 @@
+{
+  "fps": 24,
+  "duration_seconds": 10,
+  "scene": {
+    "name": "polyhaven-demo",
+    "units": "METRIC"
+  },
+  "assets": [
+    {
+      "id": "environment",
+      "type": "hdris",
+      "query": "outdoor natural light",
+      "source": "polyhaven"
+    },
+    {
+      "id": "prop",
+      "type": "models",
+      "query": "decorative object",
+      "source": "polyhaven"
+    }
+  ],
+  "characters": [],
+  "camera": {
+    "type": "PERSP",
+    "location": [7, -7, 4],
+    "look_at": [0, 0, 1]
+  },
+  "lighting": {
+    "world": {
+      "asset": "environment",
+      "strength": 0.8
+    }
+  },
+  "motion": [
+    {
+      "action": "orbit",
+      "target": "prop",
+      "start": 0,
+      "end": 10,
+      "params": {
+        "degrees": 360
+      }
+    }
+  ],
+  "render": {
+    "engine": "BLENDER_EEVEE_NEXT",
+    "resolution": [1920, 1080],
+    "output": "preview.mp4"
+  }
+}
